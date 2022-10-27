@@ -21,7 +21,7 @@ For installation instructions see [INSTALL.md](bulkdata_updater/INSTALL.md)
 
 ### Configuration
 A config.yaml file must be provided. This can be created by editing the provided
-[config_tempate.yaml](config_tempate.yaml) file. 
+[config_tempate.yaml](https://github.com/linz/lds-bulk-updater/blob/master/bulkdata_updater/config_template.yaml) file. 
 
 
 #### Configuration Values:
