@@ -11,7 +11,7 @@ setup(
     name="bulkdata_updater",
     version="dev",
     description="Update LINZ Data Service data",
-    author="pkhoslar",
+    author="pkhosla",
     author_email="pkhosla@linz.govt.nz",
     url="https://github.com/linz/lds-bulk-updater",
     packages=find_packages(),

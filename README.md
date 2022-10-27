@@ -11,9 +11,9 @@ For installation instructions see [INSTALL.md](bulkdata_updater/INSTALL.md)
 
 ## Simple Overview
 
-1.Takes the layer ids from the user
-2. creates a draft id for the each layer id in the list.
-3. Use the genertaed draft id to trigger the import
+1.Takes the layer ids from the user \n
+2. creates a draft id for the each layer id in the list. \n 
+3. Use the genertaed draft id to trigger the import \n
 4. Use the layer id and draft id to update the existing layer and publish the new dataset. 
 
 
@@ -65,7 +65,8 @@ the key is to be assigned to must be `LDS_APIKEY=<lds_apikey>`
 ### Execute bulkdata_update.py
 Once the config.yaml file has been updated simply run
 
-```bulkdata_updater``` (if installed via the recommended setup.py method)
+```cd bulkdata_updater``` (if installed via the recommended setup.py method)
+```python bulkdata_updater.py```
 
 
 ### Future Enhancements:

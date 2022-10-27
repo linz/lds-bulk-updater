@@ -23,8 +23,6 @@ except:
 logger = logging.getLogger(__name__)
 ERRORS = 0
 
-SECRET = "key de10938baf5d476ea6383c212e38e296"
-host_name = "sandbox-2gxknc.koordinates.com"
 
 class ConfigReader():
     """
@@ -90,7 +88,6 @@ def parse_args(args):
 
 def get_draft_id(layer_id, api_key, domain):
     draft_id_url = f"https://{domain}/services/api/v1.x/layers/{layer_id}/versions/"
-    
     payload = ""
     headers = {
       'Content-Type': 'application/json',
@@ -112,6 +109,7 @@ def get_draft_id(layer_id, api_key, domain):
     
 def trigger_import(layer_id, draft_id, api_key, domain):
     import_url = f"https://{domain}/services/api/v1.x/layers/{layer_id}/versions/{draft_id}/import/"
+    print(import_url)
     payload = ""
     headers = {
       'Content-Type': 'application/json',
@@ -165,14 +163,12 @@ def main():
         print(layer_id)
         draft_id = get_draft_id(layer_id, config.api_key, config.domain) 
         if draft_id: 
-                break
+                trigger_import(layer_id, draft_id, config.api_key, config.domain)
+                publish_layer(layer_id, draft_id, config.api_key, config.domain)
         if not draft_id:
             logger.critical('Failed to get layer {0}. THIS LAYER HAS NOT BEEN PROCESSED'. format(layer_id))
             continue
-
-        trigger_import(layer_id, draft_id, config.api_key, config.domain)
-        publish_layer(layer_id, draft_id, config.api_key, config.domain)
-          
+        
 
 if __name__ == "__main__":
     main() 
