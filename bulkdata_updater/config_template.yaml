@@ -1,0 +1,13 @@
+---
+# Template config for the bulk upload to LDS
+
+
+Connection:
+  Api_key: <ADMIN API KEY>             # Not Recommended. Should be stored as envi var
+  Domain:  <Data Service Domain>       # e.g. data.linz.govt.nz
+
+
+
+Datasets:
+  Layers: <Layers to Process>           # A list of Layers or Table ids
+                                        # e.g. [93639,93648, 93649]
