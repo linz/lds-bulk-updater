@@ -17,14 +17,14 @@ change to git dir
 
 *  `cd ~/git`
 
-Clone lds-metadata-updater project
+Clone lds-bulk-updater project
 *  `git clone https://github.com/linz/lds-bulk-updater.git`
 
 
 ### Setup.py
 
-ensure you are in the lds-metadata-updater project directiry 
+ensure you are in the lds-bulk-updater project directory 
 *  `cd ~/git/lds-bulk-updater` 
 
-install metadata_updaer and its dependencies see (requirements.txt)[requirements.txt])
+install bulkdata_updater and its dependencies see (requirements.txt)[requirements.txt])
 * `python3 setup.py install`
