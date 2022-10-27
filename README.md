@@ -17,7 +17,7 @@ For installation instructions see [INSTALL.md](bulkdata_updater/INSTALL.md)
 4. Use the layer id and draft id to update the existing layer and publish the new dataset. 
 
 
-## Execute Metadata Update
+## Execute Bulkdata Update
 
 ### Configuration
 A config.yaml file must be provided. This can be created by editing the provided
@@ -41,7 +41,7 @@ Datasets:
 **API Key**
 
 The (LINZ) Data Service API key must be generated with the required permissions 
-to update metadata. It is recommend that a API key is created specifically for 
+to update data in bulk. It is recommend that a API key is created specifically for 
 this task.
 
 The API KEY must have the following permission enabled against it. You will 
