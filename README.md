@@ -12,7 +12,7 @@ For installation instructions see [INSTALL.md](bulkdata_updater/INSTALL.md)
 ## Simple Overview
 
 1. Takes the layer ids from the user
-2. creates a draft id for the each layer id in the list. 
+2. Creates a draft id for the each layer id in the list. 
 3. Use the genertaed draft id to trigger the import
 4. Use the layer id and draft id to update the existing layer and publish the new dataset. 
 
