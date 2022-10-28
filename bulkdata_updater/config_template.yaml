@@ -3,7 +3,7 @@
 
 
 Connection:
-  Api_key: <ADMIN API KEY>             # Not Recommended. Should be stored as envi var
+  Api_key: key <ADMIN API KEY>             # Not Recommended. Should be stored as envi var
   Domain:  <Data Service Domain>       # e.g. data.linz.govt.nz
 
 
