@@ -28,7 +28,7 @@ A config.yaml file must be provided. This can be created by editing the provided
 
 ```
 Connection:
-  Api_key = <ADMIN API KEY>             # See notes below on API Keys
+  Api_key = key <ADMIN API KEY>             # See notes below on API Keys
   Domain =  <Data Service Domain>       # e.g. data.linz.govt.nz
 
 
