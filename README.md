@@ -1,6 +1,7 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/linz/lds-metadata-updater/LICENSE) 
 [![GitHub Actions Status](https://github.com/linz/lds-metadata-updater/workflows/CI/badge.svg)](https://github.com/linz/lds-metadata-updater/actions)
 
+# Note: Highly recommended not to run in production, Please use sandbox to test the script
 
 # lds-bulkdata-updater
 
