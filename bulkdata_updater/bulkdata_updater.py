@@ -172,7 +172,6 @@ def main():
             publish_layer(layer_id, draft_id, config.api_key, config.domain)
         if not draft_id:
             logger.critical("Failed to get layer %s. THIS LAYER HAS NOT BEEN PROCESSED", layer_id)
-            # logger.critical(f"Failed to get layer {layer_id}. THIS LAYER HAS NOT BEEN PROCESSED")
             continue
 
 
