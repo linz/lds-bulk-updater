@@ -99,6 +99,7 @@ def get_draft_id(layer_id, api_key, domain):
 
     response = requests.request("POST", draft_id_url, headers=headers, data=payload)
     response = requests.request("GET", draft_id_url, headers=headers, data=payload)
+
     if response.status_code != 200:
         sys.exit(f"{response} Bad request: Check Key or URL")
     else:
@@ -112,6 +113,7 @@ def trigger_import(layer_id, draft_id, api_key, domain):
     To trigger the import from the underlying data source
     using the newly created draft ID.
     """
+
     import_url = f"https://{domain}/services/api/v1.x/layers/{layer_id}/versions/{draft_id}/import/"
 
     payload = ""
@@ -123,6 +125,9 @@ def trigger_import(layer_id, draft_id, api_key, domain):
     response = requests.request("POST", import_url, headers=headers, data=payload)
     if response.status_code != 202:
         sys.exit(f"{response} Bad request: Check the draft_id")
+    else:
+        print("Import Triggered")
+        return True
 
 
 def publish_layer(layer_id, draft_id, api_key, domain):
@@ -140,6 +145,7 @@ def publish_layer(layer_id, draft_id, api_key, domain):
     response = requests.request("POST", publish_url, headers=headers, data=payload)
     if response.status_code != 201:
         print("Failed to make an Update")
+        sys.exit(f"{response} Bad request: Check the URL")
     else:
         print("data updated successfully")
 
@@ -168,8 +174,8 @@ def main():
         print(layer_id)
         draft_id = get_draft_id(layer_id, config.api_key, config.domain)
         if draft_id:
-            trigger_import(layer_id, draft_id, config.api_key, config.domain)
-            publish_layer(layer_id, draft_id, config.api_key, config.domain)
+            if trigger_import(layer_id, draft_id, config.api_key, config.domain) == True:
+                publish_layer(layer_id, draft_id, config.api_key, config.domain)
         if not draft_id:
             logger.critical("Failed to get layer %s. THIS LAYER HAS NOT BEEN PROCESSED", layer_id)
             continue

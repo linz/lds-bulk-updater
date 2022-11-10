@@ -8,17 +8,18 @@ Created on Tue Nov  8 13:56:15 2022
 import unittest
 import sys
 import os
-import shutil
-import types
 import logging
-import argparse
-
-sys.path.append("../")
 from bulkdata_updater import bulkdata_updater
 from bulkdata_updater import log
 
+sys.path.append("../")
+
 
 class TestBulkdataUpdaterConfig(unittest.TestCase):
+    """
+    Congig file Tests
+    """
+
     def test_read_config(self):
         """
         Ensure all required properties are present in
@@ -27,12 +28,14 @@ class TestBulkdataUpdaterConfig(unittest.TestCase):
 
         config_file = os.path.join(os.sep, os.getcwd(), "../bulkdata_updater/config_template.yaml")
         config = bulkdata_updater.ConfigReader(config_file)
-
         self.assertEqual(config.api_key, "key <ADMIN API KEY>")
         self.assertEqual(config.domain, "<Data Service Domain>")
         self.assertEqual(config.layers, "<Layers to Process>")
 
     def test_config_get_cwd(self):
+        """
+        Tests FileNotFoundError exception.
+        """
         self.assertRaises(FileNotFoundError, bulkdata_updater.ConfigReader, None)
 
 
