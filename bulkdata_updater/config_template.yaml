@@ -3,11 +3,44 @@
 
 
 Connection:
-  Api_key: key <ADMIN API KEY>             # Not Recommended. Should be stored as envi var
-  Domain:  <Data Service Domain>       # e.g. data.linz.govt.nz
+  Api_key: key <ADMIN API KEY>           # Not Recommended. Should be stored as envi var
+  Domain:  <Data Service Domain>         # e.g. data.linz.govt.nz
 
-
+lds_page_type:  <layers>                 # add either layers/tables
 
 Datasets:
   Layers: <Layers to Process>           # A list of Layers or Table ids
                                         # e.g. [93639,93648, 93649]
+
+
+Groups:
+    group: <group name>                         #add from the below mentioned list of Groups
+                                                  #1. LINZ Web Mapping
+                                                  #2. Statistics NZ - Controlled Access Group
+                                                  #3. Land Information New Zealand
+                                                  #4. Fire and Emergency NZ
+                                                  #5. Valuation Test
+                                                  #6. Comprehensive Addressing Pilot
+                                                  #7. NZ Properties - Controlled Access Grou
+                                                  #8. NZ Properties
+                                                  #9. Emergency Response
+                                                  #10. National Geodetic Office
+                                                  #11. National Topographic Office
+                                                  #12. New Zealand Hydrographic Authority
+                                                  #13. Survey & Title
+                                                  #14. Electoral
+                                                  #15. Restricted Owner Data Group (Revoked)
+                                                  #16. Topo and Addressing Test
+                                                  #17. LINZ Data Test
+                                                  #18. NZ Gazetteer
+                                                  #19. Crown Property
+                                                  #20. LINZ Internal
+                                                  #21. National Imagery
+                                                  #22. Full Landonline Dataset
+                                                  #23. Basemaps
+                                                  #24. Owner Data - Controlled Access Group
+                                                  #25. Electoral Commission
+                                                  #26. National Tracks
+                                                  #27. Addressing
+                                                  #28. Parcels Pending Approval - Controlled Access Group
+                                                  #29. National Elevation

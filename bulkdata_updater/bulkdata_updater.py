@@ -14,8 +14,7 @@ import sys
 
 import requests
 import yaml
-
-
+import get_source_info
 try:
     import log
 except ImportError:
@@ -41,7 +40,7 @@ class ConfigReader:  # pylint: disable=too-few-public-methods
             cwd = os.path.join(os.sep, cwd, "config.yaml")
 
         # check config exists
-        if not os.path.exists(cwd):
+        if not os.path.exists(cwd): 
             raise FileNotFoundError("Can not find config file")
 
         with open(cwd, "r", encoding="UTF-8") as file:
@@ -51,6 +50,7 @@ class ConfigReader:  # pylint: disable=too-few-public-methods
         if "Connection" in config:
             if os.getenv("LDS_APIKEY", None):
                 self.api_key = os.environ["LDS_APIKEY"]
+                print(self.api_key)
             else:
                 self.api_key = config["Connection"]["Api_key"]
             if not self.api_key:
@@ -64,6 +64,18 @@ class ConfigReader:  # pylint: disable=too-few-public-methods
             self.layers = config["Datasets"]["Layers"]
         else:
             raise SystemExit('CONFIG ERROR: No "Datasets" section')
+            
+        # Group name to which layer belong
+        if "Groups" in config:
+            self.group = config["Groups"]["group"]
+        else:
+            raise SystemExit('CONFIG ERROR: No "group" section')
+            
+        # Page type in LDS
+        if "lds_page_type" in config:
+            self.lds_page_type = config["lds_page_type"]
+        else:
+            raise SystemExit('CONFIG ERROR: No "lds_page_type" section')
 
 
 def iterate_selective(layers):
@@ -91,10 +103,12 @@ def get_draft_id(layer_id, api_key, domain):
     which contains a draft_id.
     """
     draft_id_url = f"https://{domain}/services/api/v1.x/layers/{layer_id}/versions/"
+    print('draft_id url: ' ,draft_id_url)
     payload = ""
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"{api_key}",
+
     }
 
     response = requests.request("POST", draft_id_url, headers=headers, data=payload)
@@ -105,6 +119,7 @@ def get_draft_id(layer_id, api_key, domain):
     else:
         response_dict = json.loads(response.text)
         draft_id = response_dict[0].get("id")
+        print("Draft ID: ",draft_id)
         return draft_id
 
 
@@ -115,7 +130,7 @@ def trigger_import(layer_id, draft_id, api_key, domain):
     """
 
     import_url = f"https://{domain}/services/api/v1.x/layers/{layer_id}/versions/{draft_id}/import/"
-
+    print('import url: ' ,import_url)
     payload = ""
     headers = {
         "Content-Type": "application/json",
@@ -123,6 +138,7 @@ def trigger_import(layer_id, draft_id, api_key, domain):
     }
 
     response = requests.request("POST", import_url, headers=headers, data=payload)
+    print(response)
     if response.status_code != 202:
         sys.exit(f"{response} Bad request: Check the draft_id")
     else:
@@ -168,17 +184,35 @@ def main():
 
     # READ CONFIG IN
     config = ConfigReader(config_file)
+    print(config.api_key)
 
     layer_ids = iterate_selective(config.layers)
     for layer_id in layer_ids:
         print(layer_id)
-        draft_id = get_draft_id(layer_id, config.api_key, config.domain)
-        if draft_id:
-            if trigger_import(layer_id, draft_id, config.api_key, config.domain) == True:
-                publish_layer(layer_id, draft_id, config.api_key, config.domain)
-        if not draft_id:
-            logger.critical("Failed to get layer %s. THIS LAYER HAS NOT BEEN PROCESSED", layer_id)
-            continue
+            
+        prev_ver_id, version_url, prev_count, o_source_summary, layer_discription, types = get_source_info.source_info(config.domain, layer_id, config.lds_page_type, config.api_key)
+        
+        valid_group = get_source_info.check_group_name(config.group, config.domain, layer_id, config.lds_page_type, prev_ver_id, config.api_key)
+        
+        if valid_group is True:
+        
+            draft_id = get_draft_id(layer_id, config.api_key, config.domain)
+            
+            new_ver_id, n_version_url, new_count, n_source_summary, n_layer_discription, n_types = get_source_info.source_info(config.domain, layer_id, config.lds_page_type, config.api_key)
+            
+            get_source_info.source_check(o_source_summary, n_source_summary)
+            
+            get_source_info.feature_count_check(prev_count, new_count)
+    
+            if draft_id:
+                if trigger_import(layer_id, draft_id, config.api_key, config.domain) == True:
+                    publish_layer(layer_id, draft_id, config.api_key, config.domain)
+            if not draft_id:
+                logger.critical("Failed to get layer %s. THIS LAYER HAS NOT BEEN PROCESSED", layer_id)
+                continue
+            
+        else:
+            print("Check the group name in Config file")
 
 
 if __name__ == "__main__":
