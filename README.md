@@ -38,13 +38,18 @@ A config.yaml file must be provided. This can be created by editing the provided
 
 ```
 Connection:
-  Api_key = key <ADMIN API KEY>             # See notes below on API Keys
-  Domain =  <Data Service Domain>       # e.g. data.linz.govt.nz
+  Api_key: key <ADMIN API KEY>           # Not Recommended. Should be stored as envi var
+  Domain:  <Data Service Domain>         # e.g. data.linz.govt.nz
 
+lds_page_type:  <layers>                 # add either layers/tables
 
 Datasets:
-  Layers: <Layers to Process>           # A list of Layers/Table ids
+  Layers: <Layers to Process>           # A list of Layers or Table ids
                                         # e.g. [93639,93648, 93649]
+
+
+Groups:
+    group: <group name>                         #add the group name to which the layer belongs
 
 ```
 
