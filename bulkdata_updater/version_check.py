@@ -9,7 +9,7 @@ import requests
 import json
 
 def version_check(domain, layer_id, api_key):
-    
+    """Get the latest version's id of the layer"""
 
     url = f"https://{domain}/services/api/v1/layers/{layer_id}/versions/"
     

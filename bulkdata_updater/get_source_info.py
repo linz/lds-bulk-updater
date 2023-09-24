@@ -11,6 +11,7 @@ from . import version_check
 
 # lds_page_type is either 'layers' or 'tables'
 def load_metadata(domain, layer_id, lds_page_type, ver_id, api_key):
+    """API request to get the metadata info of the script"""
 
     layer_url = f"https://{domain}/services/api/v1/{lds_page_type}/{layer_id}/versions/{ver_id}/"
     # Request layer details
@@ -56,6 +57,7 @@ def load_metadata(domain, layer_id, lds_page_type, ver_id, api_key):
 
 
 def source_info(domain, layer_id, lds_page_type, api_key):
+    """get the metadata of the latest version"""
 
     # layer_id, lds_page_type, api_key = layer_id, lds_page_type, api_key
     version_id, version_url = version_check.version_check(domain, layer_id, api_key)
@@ -65,6 +67,8 @@ def source_info(domain, layer_id, lds_page_type, api_key):
 
 
 def source_check(prev_source, current_src):
+    """compare the metadata of the previous and latest 
+    version of the layer to be updated"""
 
     if prev_source == current_src:
         print("Source is same in the new and old version \n", current_src)
@@ -75,15 +79,16 @@ def source_check(prev_source, current_src):
         print("Unable to compare the sources in new and old version")
         print("old source: \n", prev_source)
         print("new source: \n", current_src)
- 
-        
+
+
 def feature_count_check(prev_count, new_count):
-    
+    """ALert the user if the feature count difference b/w the latest and previus version is more than 10%"""
+
     change = 0.1*prev_count
-    
+
     print('prev_count :', prev_count)
     print('new_count :', new_count)
-    
+
     if prev_count > change:
         diff = prev_count - new_count
         print('diff', diff)
@@ -99,10 +104,13 @@ def feature_count_check(prev_count, new_count):
         else:
             print("Feature count difference between the old and updated layer is: ", diff)
     elif prev_count == new_count:
-        print('Feature count difference between the old and updated layer is same')   
+        print('Feature count difference between the old and updated layer is same')
 
 
 def check_group_name(group_input, domain, layer_id, lds_page_type, version_id, api_key):
+    """to check the group name in the config file is same as the one 
+    in the metadata in LDS"""
+    
     feature_count, group, source_summary, layer_discription, types = load_metadata(domain, layer_id, lds_page_type, version_id, api_key)
     if group == group_input:
         print("Group name is: ", group)
