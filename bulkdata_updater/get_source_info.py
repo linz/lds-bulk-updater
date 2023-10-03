@@ -6,7 +6,7 @@ Created on Fri Aug 11 14:41:47 2023
 """
 
 import requests
-from . import version_check
+import version_check
 
 
 # lds_page_type is either 'layers' or 'tables'
