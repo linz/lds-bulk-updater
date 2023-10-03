@@ -14,7 +14,7 @@ import sys
 
 import requests
 import yaml
-from . import get_source_info
+import get_source_info
 try:
     import log
 except ImportError:
