@@ -47,11 +47,11 @@ def load_metadata(domain, layer_id, lds_page_type, ver_id, api_key):
     if not types:
         print("Error in getting types")
 
-    if layer_discription == "\\\\144.66.90.172\\data/topo" and types == 'CIFS':
-        layer_id = layer_details["id"]
-        if not layer_id:
-            print("Error in getting layer id")
-        print(layer_id)
+    #if layer_discription == "\\\\144.66.90.172\\data/topo" and types == 'CIFS':
+        #layer_id = layer_details["id"]
+        #if not layer_id:
+            #print("Error in getting layer id")
+        #print(layer_id)
 
     return feature_count, group, source_summary, layer_discription, types
 
