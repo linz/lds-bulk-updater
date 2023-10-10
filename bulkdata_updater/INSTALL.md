@@ -11,11 +11,11 @@
 
 make a git dir if you do not have one
 
-*  `mkdir ~/git`
+*  `mkdir git`
 
 change to git dir
 
-*  `cd ~/git`
+*  `cd git`
 
 Clone lds-bulk-updater project
 *  `git clone https://github.com/linz/lds-bulk-updater.git`
@@ -24,7 +24,7 @@ Clone lds-bulk-updater project
 ### Setup.py
 
 ensure you are in the lds-bulk-updater project directory 
-*  `cd ~/git/lds-bulk-updater` 
+*  `cd C:/Users/git/lds-bulk-updater` 
 
 install bulkdata_updater and its dependencies see (requirements.txt)[requirements.txt])
 * `python3 setup.py install`
