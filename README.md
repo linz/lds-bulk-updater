@@ -17,7 +17,6 @@
 
 This utility updates multiple datasets/layer available in LINZ (as well as others') Data Service.
 
-For installation instructions see [INSTALL.md](bulkdata_updater/INSTALL.md)
 
 ## Simple Overview
 
