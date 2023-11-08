@@ -11,10 +11,12 @@ import logging
 import os
 import re
 import sys
-
 import requests
 import yaml
 import get_source_info
+
+
+
 try:
     import log
 except ImportError:
@@ -190,14 +192,17 @@ def main():
     for layer_id in layer_ids:
 
         print(layer_id)
-        prev_ver_id, version_url, prev_count, o_source_summary, layer_discription, types = get_source_info.source_info(config.domain,
-                                                                                                                       layer_id, config.lds_page_type, config.api_key)
+        # Create an instance of the SourceInfo class
+        source_info_instance = get_source_info.SourceInfo(config.domain, layer_id, config.lds_page_type, config.api_key)
+        
+        # Call the get_metadata method to retrieve the values
+        prev_ver_id, version_url, prev_count, o_source_summary, layer_discription, types = source_info_instance.get_source_info()
+
         print(version_url, layer_discription, types)
         valid_group = get_source_info.check_group_name(config.group, config.domain, layer_id, config.lds_page_type, prev_ver_id, config.api_key)
         if valid_group is True:
             draft_id = get_draft_id(layer_id, config.api_key, config.domain)
-            new_ver_id, n_version_url, new_count, n_source_summary, n_layer_discription, n_types = get_source_info.source_info(config.domain,
-                                                                                                   layer_id, config.lds_page_type, config.api_key)
+            new_ver_id, n_version_url, new_count, n_source_summary, n_layer_discription, n_types = source_info_instance.get_source_info()
             print(new_ver_id, n_version_url, n_layer_discription, n_types)
             get_source_info.source_check(o_source_summary, n_source_summary)
             get_source_info.feature_count_check(prev_count, new_count)

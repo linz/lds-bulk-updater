@@ -9,55 +9,67 @@ import requests
 import version_check
 
 
-# lds_page_type is either 'layers' or 'tables'
-def load_metadata(domain, layer_id, lds_page_type, ver_id, api_key):
-    """API request to get the metadata info of the script"""
+class LoadMetadata:
+    def __init__(self, domain, layer_id, lds_page_type, ver_id, api_key):
+        self.domain = domain
+        self.layer_id = layer_id
+        self.lds_page_type = lds_page_type
+        self.ver_id = ver_id
+        self.api_key = api_key
 
-    layer_url = f"https://{domain}/services/api/v1/{lds_page_type}/{layer_id}/versions/{ver_id}/"
-    # Request layer details
-    layer_resp = requests.get(
-                    layer_url, headers={"Authorization": f"{api_key}"}
-                , timeout=10)
-    print(layer_resp)
-    if not layer_resp:
-        print("Error in getting response")
+    def get_metadata_info(self):
+        """API request to get the metadata info of the script"""
 
-    layer_details = layer_resp.json()
-    # print(layer_details)
-    if not layer_details:
-        print("Error in getting response json")
+        layer_url = f"https://{self.domain}/services/api/v1/{self.lds_page_type}/{self.layer_id}/versions/{self.ver_id}/"
+        # Request layer details
+        layer_resp = requests.get(layer_url, headers={"Authorization": f"{self.api_key}"}, timeout=10)
+        print(layer_resp)
+        if not layer_resp:
+            print("Error in getting response")
 
-    feature_count = layer_details["data"]['feature_count']
-    if not feature_count:
-        print("Error in getting feature_count")
+        layer_details = layer_resp.json()
+        if not layer_details:
+            print("Error in getting response json")
 
-    group = layer_details["group"]["name"]
-    if not group:
-        print("Error in getting group")
+        feature_count = layer_details["data"]['feature_count']
+        if not feature_count:
+            print("Error in getting feature_count")
 
-    source_summary = layer_details["data"]['source_summary']
-    if not source_summary:
-        print("Error in getting source_summary")
+        group = layer_details["group"]["name"]
+        if not group:
+            print("Error in getting group")
 
-    layer_discription = layer_details["data"]['source_summary']['descriptions'][0]
-    if not layer_discription:
-        print("Error in getting discription")
+        source_summary = layer_details["data"]['source_summary']
+        if not source_summary:
+            print("Error in getting source_summary")
 
-    types = layer_details["data"]['source_summary']['types'][0]
-    if not types:
-        print("Error in getting types")
+        layer_description = layer_details["data"]['source_summary']['descriptions'][0]
+        if not layer_description:
+            print("Error in getting description")
 
-    return feature_count, group, source_summary, layer_discription, types
+        types = layer_details["data"]['source_summary']['types'][0]
+        if not types:
+            print("Error in getting types")
+
+        return feature_count, group, source_summary, layer_description, types
 
 
-def source_info(domain, layer_id, lds_page_type, api_key):
-    """get the metadata of the latest version"""
 
-    # layer_id, lds_page_type, api_key = layer_id, lds_page_type, api_key
-    version_id, version_url = version_check.version_check(domain, layer_id, api_key)
-    feature_count, group, source_summary, layer_discription, types = load_metadata(domain, layer_id, lds_page_type, version_id, api_key)
-    print(group, version_id, version_url, feature_count, source_summary, layer_discription, types)
-    return version_id, version_url, feature_count, source_summary, layer_discription, types
+class SourceInfo:
+    def __init__(self, domain, layer_id, lds_page_type, api_key):
+        self.domain = domain
+        self.layer_id = layer_id
+        self.lds_page_type = lds_page_type
+        self.api_key = api_key
+
+    def get_source_info(self):
+        """get the metadata of the latest version"""
+
+        version_id, version_url = version_check.version_check(self.domain, self.layer_id, self.api_key)
+        load_metadata_instance = LoadMetadata(self.domain, self.layer_id, self.lds_page_type, version_id, self.api_key)
+        feature_count, group, source_summary, layer_discription, types = load_metadata_instance.get_metadata_info()
+        print(group, version_id, version_url, feature_count, source_summary, layer_discription, types)
+        return version_id, version_url, feature_count, source_summary, layer_discription, types
 
 
 def source_check(prev_source, current_src):
@@ -105,7 +117,8 @@ def check_group_name(group_input, domain, layer_id, lds_page_type, version_id, a
     """to check the group name in the config file is same as the one 
     in the metadata in LDS"""
     
-    feature_count, group, source_summary, layer_discription, types = load_metadata(domain, layer_id, lds_page_type, version_id, api_key)
+    load_metadata_instance = LoadMetadata(domain, layer_id, lds_page_type, version_id, api_key)
+    feature_count, group, source_summary, layer_discription, types = load_metadata_instance.get_metadata_info()
     if group == group_input:
         print("Group name is: ", group)
         return True
