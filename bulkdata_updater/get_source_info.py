@@ -100,17 +100,22 @@ def feature_count_check(prev_count, new_count):
         print('diff', diff)
         if diff > change:
             print("Feature count difference between the old and updated layer is > 10000 i.e.", diff)
+            return False
         else:
             print("Feature count difference between the old and updated layer is: ", diff)
+            return True
     elif new_count > prev_count:
         diff = new_count - prev_count
         print('diff', diff)
         if diff > change:
             print("Feature count difference between the old and updated layer is > 10000 i.e.", diff)
+            return False
         else:
             print("Feature count difference between the old and updated layer is: ", diff)
+            return True
     elif prev_count == new_count:
         print('Feature count difference between the old and updated layer is same')
+        return True
 
 
 def check_group_name(group_input, domain, layer_id, lds_page_type, version_id, api_key):

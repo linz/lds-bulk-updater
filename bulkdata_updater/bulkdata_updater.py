@@ -11,10 +11,10 @@ import logging
 import os
 import re
 import sys
-
 import requests
 import yaml
 import get_source_info
+from get_source_info import SourceInfo
 try:
     import log
 except ImportError:
@@ -192,8 +192,10 @@ def main():
     layer_ids = iterate_selective(config.layers)
     for layer_id in layer_ids:
         print(layer_id)
-            
-        prev_ver_id, version_url, prev_count, o_source_summary, layer_discription, types = get_source_info.source_info(config.domain, layer_id, config.lds_page_type, config.api_key)
+        
+        source_info_instance = SourceInfo(config.domain, layer_id, config.lds_page_type, config.api_key)
+        
+        prev_ver_id, version_url, prev_count, o_source_summary, layer_discription, types = source_info_instance.get_source_info()
         
         valid_group = get_source_info.check_group_name(config.group, config.domain, layer_id, config.lds_page_type, prev_ver_id, config.api_key)
         
@@ -206,7 +208,7 @@ def main():
                 if status == 'ok':
                 
                 
-                    new_ver_id, n_version_url, new_count, n_source_summary, n_layer_discription, n_types = get_source_info.source_info(config.domain, layer_id, config.lds_page_type, config.api_key)
+                    new_ver_id, n_version_url, new_count, n_source_summary, n_layer_discription, n_types = source_info_instance.get_source_info()
                     
                     get_source_info.source_check(o_source_summary, n_source_summary)
                     
